@@ -33,6 +33,20 @@ ALLOWED_HOSTS = _env_list("ALLOWED_HOSTS", default=["127.0.0.1", "localhost"])
 
 CSRF_TRUSTED_ORIGINS = _env_list("CSRF_TRUSTED_ORIGINS", default=[])
 
+# --- Security / proxy (prod) ---
+# Nginx proxy mögött vagyunk; a HTTPS-t a proxy jelzi.
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
+    # HSTS (kontrollált env-vel)
+    SECURE_HSTS_SECONDS = int(os.environ.get("SECURE_HSTS_SECONDS", "31536000"))
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = _env_bool("SECURE_HSTS_INCLUDE_SUBDOMAINS", default=False)
+    SECURE_HSTS_PRELOAD = _env_bool("SECURE_HSTS_PRELOAD", default=False)
+
 # Application definition
 INSTALLED_APPS = [
     "django.contrib.admin",
