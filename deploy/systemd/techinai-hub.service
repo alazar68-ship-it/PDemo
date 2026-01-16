@@ -1,0 +1,23 @@
+[Unit]
+Description=Techinai Demo Hub (Django)
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/techinai-demo/hub
+EnvironmentFile=/opt/techinai-demo/hub/.env
+ExecStart=/opt/techinai-demo/hub/.venv/bin/gunicorn hubsite.wsgi:application --bind 127.0.0.1:8000 --workers 2 --timeout 60
+Restart=on-failure
+RestartSec=3
+
+# Hardening (optional baseline)
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/opt/techinai-demo/hub
+
+[Install]
+WantedBy=multi-user.target

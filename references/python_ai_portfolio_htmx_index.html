@@ -1,0 +1,1007 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Python AI fejlesztési portfólió – projektek, bemutatók, elérhetőségek." />
+  <title>Python AI Portfólió – András Lázár</title>
+
+  <!--
+    HTMX (CDN). Statikus hoszton is működik.
+    Ha offline / self-hosted verzió kell: töltsd le és tedd a /assets alá.
+  -->
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+
+  <style>
+    :root{
+      --bg0:#070A12;
+      --bg1:#0B1222;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.04);
+      --stroke: rgba(255,255,255,.12);
+      --stroke2: rgba(255,255,255,.08);
+      --text:#EAF0FF;
+      --muted: rgba(234,240,255,.72);
+      --muted2: rgba(234,240,255,.55);
+      --brand:#4F8CFF;
+      --brand2:#7C5CFF;
+      --ok:#36D399;
+      --warn:#FBBF24;
+      --shadow: 0 18px 55px rgba(0,0,0,.38);
+      --radius: 18px;
+      --radius2: 26px;
+      --max: 1120px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: var(--sans);
+      color: var(--text);
+      background: radial-gradient(1200px 700px at 15% -10%, rgba(79,140,255,.22), transparent 60%),
+                  radial-gradient(1000px 600px at 85% 0%, rgba(124,92,255,.18), transparent 55%),
+                  radial-gradient(1000px 700px at 50% 115%, rgba(54,211,153,.12), transparent 55%),
+                  linear-gradient(180deg, var(--bg0), var(--bg1));
+      min-height:100vh;
+    }
+
+    a{color:inherit; text-decoration:none}
+    .container{max-width:var(--max); margin:0 auto; padding:0 20px}
+
+    /* Top nav */
+    .nav{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: rgba(7,10,18,.65);
+      border-bottom: 1px solid var(--stroke2);
+    }
+    .nav-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 14px 0;
+      gap: 14px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+    .brand-badge{
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      display:grid;
+      place-items:center;
+      background: linear-gradient(135deg, rgba(79,140,255,.20), rgba(124,92,255,.16));
+      border: 1px solid var(--stroke);
+    }
+    .brand small{display:block; font-weight:600; color:var(--muted2); margin-top:2px}
+
+    .menu{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .link{
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1;
+      transition: .18s ease;
+    }
+    .link:hover{
+      background: rgba(255,255,255,.05);
+      border-color: var(--stroke2);
+      color: var(--text);
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      font-weight: 650;
+      font-size: 14px;
+      transition: .18s ease;
+      box-shadow: 0 0 0 rgba(0,0,0,0);
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.09)}
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(79,140,255,.95), rgba(124,92,255,.85));
+      border-color: rgba(255,255,255,.18);
+    }
+    .btn.primary:hover{filter: brightness(1.03)}
+    .btn.ghost{
+      background: transparent;
+      border-color: var(--stroke2);
+      color: var(--muted);
+    }
+
+    .icon{width:18px; height:18px; opacity:.92}
+
+    /* Hero */
+    .hero{
+      padding: 64px 0 40px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke2);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    h1{
+      margin: 16px 0 0;
+      font-size: clamp(34px, 4.2vw, 56px);
+      letter-spacing: -0.9px;
+      line-height: 1.05;
+    }
+    h1 .accent{color: var(--brand)}
+
+    .subtitle{
+      margin: 10px 0 0;
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 58ch;
+    }
+
+    .cta{
+      margin-top: 20px;
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .highlights{
+      margin-top: 22px;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .mini{
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--stroke2);
+      padding: 14px 14px;
+    }
+    .mini .k{font-size: 12px; color: var(--muted2); text-transform: uppercase; letter-spacing: .12em}
+    .mini .v{margin-top:6px; font-weight: 700; font-size: 14px}
+
+    .side-card{
+      border-radius: var(--radius2);
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--stroke2);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+    .side-card h3{margin: 0; font-size: 14px; letter-spacing: .2px}
+    .side-card p{margin: 8px 0 0; color: var(--muted); font-size: 14px; line-height: 1.6}
+
+    .kpi-grid{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .kpi{
+      border-radius: 16px;
+      background: rgba(7,10,18,.35);
+      border: 1px solid var(--stroke2);
+      padding: 12px;
+    }
+    .kpi .k{font-size: 12px; color: var(--muted2)}
+    .kpi .v{margin-top: 6px; font-weight: 800}
+
+    /* Sections */
+    section{scroll-margin-top: 90px}
+    .section{
+      padding: 46px 0;
+    }
+    .section-head{
+      display:flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .eyebrow{font-size: 12px; color: var(--muted2); text-transform: uppercase; letter-spacing: .18em}
+    h2{margin: 8px 0 0; font-size: 26px; letter-spacing: -0.3px}
+    .lead{margin: 8px 0 0; color: var(--muted); line-height: 1.6; max-width: 70ch; font-size: 14.5px}
+
+    /* Projects */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card{
+      border-radius: var(--radius2);
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--stroke2);
+      overflow:hidden;
+      position: relative;
+      box-shadow: 0 0 0 rgba(0,0,0,0);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+
+    /* Diszkrét, projektenként hangolható glow (hoverre jelenik meg) */
+    .card::before{
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .20s ease;
+      background:
+        radial-gradient(720px 260px at 18% 0%, var(--glowA, rgba(79,140,255,.16)), transparent 60%),
+        radial-gradient(650px 240px at 88% 12%, var(--glowB, rgba(124,92,255,.10)), transparent 62%);
+    }
+
+    /* A tartalom mindig a glow felett */
+    .card > *{ position: relative; z-index: 1; }
+
+    .card:hover{
+      transform: translateY(-3px);
+      background: rgba(255,255,255,.07);
+      border-color: rgba(255,255,255,.18);
+    }
+    .card:hover::before{ opacity: 1; }
+
+    /* Projektspecifikus glow-ok (visszafogottan) */
+    .glow-blue{
+      --glowA: rgba(79,140,255,.18);
+      --glowB: rgba(79,140,255,.07);
+    }
+    .glow-purple{
+      --glowA: rgba(124,92,255,.18);
+      --glowB: rgba(79,140,255,.06);
+    }
+    .glow-teal{
+      --glowA: rgba(54,211,153,.16);
+      --glowB: rgba(79,140,255,.06);
+    }
+    .glow-amber{
+      --glowA: rgba(251,191,36,.14);
+      --glowB: rgba(124,92,255,.06);
+    }
+
+    .thumb{
+      height: 178px;
+      background:
+        radial-gradient(620px 240px at 25% 20%, rgba(79,140,255,.35), transparent 55%),
+        radial-gradient(560px 240px at 80% 0%, rgba(124,92,255,.26), transparent 55%),
+        linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
+      border-bottom: 1px solid var(--stroke2);
+      position: relative;
+      overflow:hidden;
+    }
+
+    .thumb.img{
+      position: relative;
+      /* Rétegek az image felett: finom sötétítés + brand glow */
+      background-image:
+        linear-gradient(135deg, rgba(7,10,18,.35), rgba(7,10,18,.70)),
+        radial-gradient(620px 240px at 25% 20%, rgba(79,140,255,.22), transparent 55%),
+        radial-gradient(560px 240px at 80% 0%, rgba(124,92,255,.18), transparent 55%);
+      background-size: auto, auto, auto;
+      background-position: center, center, center;
+      background-repeat: no-repeat;
+    }
+
+    /* Kép külön rétegben: így finoman tudjuk zoomolni / parallaxolni */
+    .thumb.img::before{
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: var(--thumb);
+      background-size: cover;
+      background-position: center;
+      transform: translate3d(0,0,0) scale(1.02);
+      transition: transform .28s ease, filter .28s ease;
+      will-change: transform;
+      z-index: 0;
+    }
+
+    /* Minden, ami a thumb-on belül látszik, legyen a kép felett */
+    .thumb.img > *{
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Subtle hover: enyhe zoom + nagyon kicsi eltolás a kurzorhoz igazítva */
+    .card:hover .thumb.img::before{
+      transform:
+        translate3d(
+          calc((var(--mx, 0.5) - 0.5) * 10px),
+          calc((var(--my, 0.5) - 0.5) * 10px),
+          0
+        )
+        scale(1.06);
+      filter: saturate(1.02) contrast(1.02);
+    }
+
+    .thumb::after{
+      content:"";
+      position:absolute;
+      inset:-30px;
+      background: conic-gradient(from 150deg, rgba(79,140,255,.0), rgba(79,140,255,.18), rgba(124,92,255,.0), rgba(54,211,153,.10), rgba(79,140,255,.0));
+      filter: blur(18px);
+      opacity: .55;
+      transform: translateX(-18px);
+      transition: transform .45s ease;
+    }
+    .card:hover .thumb::after{transform: translateX(18px)}
+
+    .thumb-tag{
+      position:absolute;
+      left: 14px;
+      top: 14px;
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(7,10,18,.55);
+      border: 1px solid var(--stroke2);
+      color: var(--muted);
+      font-size: 12px;
+      backdrop-filter: blur(10px);
+    }
+
+    .overlay{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:flex-end;
+      justify-content:flex-end;
+      padding: 14px;
+      gap: 10px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: .18s ease;
+    }
+    .card:hover .overlay{opacity: 1; transform: translateY(0)}
+
+    .icon-btn{
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display:grid;
+      place-items:center;
+      border: 1px solid var(--stroke);
+      background: rgba(7,10,18,.55);
+      backdrop-filter: blur(12px);
+      transition: .18s ease;
+    }
+    .icon-btn:hover{transform: translateY(-1px); background: rgba(7,10,18,.68)}
+
+    .content{padding: 16px 16px 18px}
+    .title-row{display:flex; align-items:flex-start; justify-content:space-between; gap: 10px}
+    .title{font-weight: 800; letter-spacing: -0.2px}
+    .note{font-family: var(--mono); font-size: 12px; color: rgba(234,240,255,.62)}
+
+    .desc{margin-top: 8px; color: var(--muted); line-height: 1.6; font-size: 14px}
+
+    /* Projekt cél blokk */
+    .goal{
+      margin-top: 12px;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border: 1px solid var(--stroke2);
+      background: rgba(7,10,18,.28);
+    }
+    .goal .label{
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted2);
+    }
+    .goal .text{
+      margin-top: 8px;
+      color: rgba(234,240,255,.82);
+      line-height: 1.6;
+      font-size: 13.5px;
+    }
+
+    .chips{margin-top: 12px; display:flex; gap: 8px; flex-wrap: wrap}
+    .chip{
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke2);
+      background: rgba(255,255,255,.04);
+      color: rgba(234,240,255,.80);
+      font-size: 12px;
+    }
+
+    .links{margin-top: 14px; display:flex; gap: 10px; flex-wrap: wrap}
+    .links a{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke2);
+      background: rgba(255,255,255,.03);
+      color: rgba(234,240,255,.85);
+      font-weight: 650;
+      font-size: 13px;
+      transition: .18s ease;
+    }
+    .links a:hover{background: rgba(255,255,255,.06); transform: translateY(-1px)}
+
+    /* Contact */
+    .contact{
+      border-radius: var(--radius2);
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--stroke2);
+      padding: 18px;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .contact .row{display:flex; gap: 12px; align-items:center}
+    .contact .label{font-size: 12px; color: var(--muted2); text-transform: uppercase; letter-spacing: .14em}
+    .contact .value{font-weight: 750}
+
+    .social{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content:flex-end;
+      align-items:center;
+    }
+
+    .social a{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid var(--stroke2);
+      background: rgba(7,10,18,.35);
+      transition: .18s ease;
+      font-weight: 650;
+      color: rgba(234,240,255,.85);
+    }
+    .social a:hover{transform: translateY(-1px); background: rgba(7,10,18,.50)}
+
+    /* Footer */
+    footer{
+      border-top: 1px solid var(--stroke2);
+      background: rgba(7,10,18,.55);
+    }
+    .foot{
+      padding: 22px 0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      color: var(--muted2);
+      font-size: 14px;
+    }
+
+    /* Reveal on scroll */
+    .reveal{
+      opacity: 0;
+      transform: translateY(12px);
+      transition: .55s ease;
+    }
+    .reveal.in{
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns: 1fr;}
+      .highlights{grid-template-columns: repeat(2, minmax(0,1fr));}
+      .grid{grid-template-columns: 1fr;}
+      .contact{grid-template-columns: 1fr;}
+      .social{justify-content:flex-start;}
+    }
+    @media (max-width: 520px){
+      .highlights{grid-template-columns: 1fr;}
+      .menu{gap: 4px;}
+      .link{padding: 9px 10px; font-size: 13px;}
+    }
+
+    /* HTMX indicator (ha később betöltesz részleteket / fragmenteket) */
+    .htmx-indicator{display:none}
+    .htmx-request .htmx-indicator{display:inline-flex}
+  </style>
+</head>
+
+<body hx-boost="true">
+  <!-- NAV -->
+  <header class="nav">
+    <div class="container">
+      <div class="nav-inner">
+        <a class="brand" href="#top" aria-label="Ugrás a tetejére">
+          <span class="brand-badge" aria-hidden="true">
+            <!-- Spark icon -->
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2l1.3 4.3L18 8l-4.7 1.7L12 14l-1.3-4.3L6 8l4.7-1.7L12 2z" />
+              <path d="M19 13l.8 2.6L22 16l-2.2.8L19 19l-.8-2.2L16 16l2.2-.8L19 13z" />
+            </svg>
+          </span>
+          <div>
+            <div>Portfólió</div>
+            <small>Python AI fejlesztés</small>
+          </div>
+        </a>
+
+        <nav class="menu" aria-label="Fő navigáció">
+          <a class="link" href="#top">Főoldal</a>
+          <a class="link" href="#projects">Projektek</a>
+          <a class="link" href="#contact">Kapcsolat</a>
+          <a class="btn ghost" href="mailto:alazar68@gmail.com" aria-label="Email küldése">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16v16H4z" />
+              <path d="M22 6l-10 7L2 6" />
+            </svg>
+            Email
+          </a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="reveal">
+            <span class="pill">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 21s-6-4.35-6-10a6 6 0 0 1 12 0c0 5.65-6 10-6 10z" />
+                <circle cx="12" cy="11" r="2" />
+              </svg>
+              Budapest, HU
+            </span>
+
+            <h1>
+              András Lázár
+              <span class="accent">Python AI fejlesztések</span>
+            </h1>
+
+            <p class="subtitle">
+              Üzleti fókuszú, megbízható Python AI demókat és webes alkalmazásokat építek.
+              A célom: mérhető eredmény, tiszta architektúra, és vállalható üzemeltethetőség.
+            </p>
+
+            <div class="cta">
+              <a class="btn primary" href="#projects">
+                Projektek megtekintése
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M7 17L17 7" />
+                  <path d="M7 7h10v10" />
+                </svg>
+              </a>
+              <a class="btn" href="#contact">Kapcsolat</a>
+            </div>
+
+            <div class="highlights">
+              <div class="mini">
+                <div class="k">Fókusz</div>
+                <div class="v">LLM / RAG / Inference</div>
+              </div>
+              <div class="mini">
+                <div class="k">Stack</div>
+                <div class="v">Python · Django · HTMX</div>
+              </div>
+              <div class="mini">
+                <div class="k">Módszer</div>
+                <div class="v">Validáció · Biztonság · Rétegezés</div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="side-card reveal" aria-label="Rövid összefoglaló">
+            <h3>Gyors áttekintés</h3>
+            <p>
+              Négy, kifejezetten demózható AI projekt: számfelismerés, mini nyelvi modell,
+              RAG chat, és sakkmotor párharc konkurencia-védelemmel.
+            </p>
+            <div class="kpi-grid" role="list">
+              <div class="kpi" role="listitem">
+                <div class="k">Elv</div>
+                <div class="v">Kis függőségi lábnyom</div>
+              </div>
+              <div class="kpi" role="listitem">
+                <div class="k">UI</div>
+                <div class="v">Szerver-oldali render + HTMX</div>
+              </div>
+              <div class="kpi" role="listitem">
+                <div class="k">Ops</div>
+                <div class="v">Determinista fallback</div>
+              </div>
+              <div class="kpi" role="listitem">
+                <div class="k">Biztonság</div>
+                <div class="v">CSRF · Input validáció</div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="eyebrow">Projektek / Munkák</div>
+            <h2>Python AI demók, tiszta architektúrával</h2>
+            <p class="lead">
+              Kártyákon rövid összefoglaló, tech stack, és linkek. Hoverre megjelenik az élő demó és a GitHub ikon.
+              (A demo linkek jelenleg placeholder-ek — cseréld le a saját URL-jeidre.)
+            </p>
+          </div>
+        </div>
+
+        <div class="grid">
+          <!-- Digitrec -->
+          <article class="card reveal glow-blue">
+            <div class="thumb img" aria-hidden="true" style="--thumb: url('Digitrec_MNIST.png');">
+              <span class="thumb-tag">Digitrec · MNIST</span>
+              <div class="overlay">
+                <a class="icon-btn" href="#" title="Élő demó" aria-label="Digitrec élő demó">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 3h7v7" />
+                    <path d="M10 14L21 3" />
+                    <path d="M21 14v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
+                  </svg>
+                </a>
+                <a class="icon-btn" href="#" title="GitHub" aria-label="Digitrec GitHub repó">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 19c-4 1.5-4-2.5-5-3m10 6v-3.5c0-1 .1-1.4-.5-2 2.5-.3 5-1.2 5-5.5A4.3 4.3 0 0 0 18 7.5 4 4 0 0 0 17.9 4S17 3.7 14 5.5a13.4 13.4 0 0 0-5 0C6 3.7 5.1 4 5.1 4A4 4 0 0 0 5 7.5 4.3 4.3 0 0 0 4 10c0 4.3 2.5 5.2 5 5.5-.6.6-.6 1.2-.5 2V22" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div class="content">
+              <div class="title-row">
+                <div class="title">Digitrec – kézzel írott számfelismerés</div>
+                <div class="note">28×28 canvas</div>
+              </div>
+              <p class="desc">
+                Django + HTMX demó, ahol a felhasználó rajzol, a rendszer pedig MNIST-re tanított neurális hálóval
+                azonnal predikciót ad. Osztályvalószínűségek és rejtett réteg-aktivációk vizualizációja is megjelenik.
+              </p>
+              <div class="goal">
+                <div class="label">Cél</div>
+                <div class="text">
+                  Valós idejű ML inference web UI-ban (rajz → előfeldolgozás → predikció) úgy, hogy a felhasználó azonnali visszajelzést kapjon.
+                  Model interpretálhatóság demonstrálása (osztályvalószínűségek, rejtett réteg-aktivációk vizualizációja) anélkül, hogy a UX szétesne.
+                </div>
+              </div>
+              <div class="chips" aria-label="Technológiák">
+                <span class="chip">Python</span>
+                <span class="chip">PyTorch</span>
+                <span class="chip">Django</span>
+                <span class="chip">HTMX</span>
+              </div>
+              <div class="links">
+                <a href="#" aria-label="Digitrec demo link">Élő demó</a>
+                <a href="#" aria-label="Digitrec GitHub link">GitHub</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Tajmese -->
+          <article class="card reveal glow-purple">
+            <div class="thumb img" aria-hidden="true" style="--thumb: url('Tajmese_mini_LLM.png');">
+              <span class="thumb-tag">Tajmese · mini LLM</span>
+              <div class="overlay">
+                <a class="icon-btn" href="#" title="Élő demó" aria-label="Tajmese élő demó">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 3h7v7" />
+                    <path d="M10 14L21 3" />
+                    <path d="M21 14v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
+                  </svg>
+                </a>
+                <a class="icon-btn" href="#" title="GitHub" aria-label="Tajmese GitHub repó">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 19c-4 1.5-4-2.5-5-3m10 6v-3.5c0-1 .1-1.4-.5-2 2.5-.3 5-1.2 5-5.5A4.3 4.3 0 0 0 18 7.5 4 4 0 0 0 17.9 4S17 3.7 14 5.5a13.4 13.4 0 0 0-5 0C6 3.7 5.1 4 5.1 4A4 4 0 0 0 5 7.5 4.3 4.3 0 0 0 4 10c0 4.3 2.5 5.2 5 5.5-.6.6-.6 1.2-.5 2V22" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div class="content">
+              <div class="title-row">
+                <div class="title">Tajmese – bekezdésenkénti mesegenerálás</div>
+                <div class="note">CPU serving</div>
+              </div>
+              <p class="desc">
+                Reprodukálható tréning + serving projekt GPT-szerű (decoder-only) Transformerrel. HTMX-es UI
+                bekezdésenként “mesél” a prompt alapján. Tréning oldalon seed/checkpoint/metaadatok, serving oldalon
+                biztonságos inputkezelés.
+              </p>
+              <div class="goal">
+                <div class="label">Cél</div>
+                <div class="text">
+                  Kis nyelvi modell (decoder-only Transformer) serving weben: felhasználói promptból bekezdésenként generált szöveg, HTMX interakcióval.
+                  A tréning/serving életciklus szemléltetése: determinisztikus futás (seed/checkpoint), kontrollált generálás (max token, stop feltételek).
+                </div>
+              </div>
+              <p class="desc" style="margin-top:10px; color: rgba(234,240,255,.62)">
+                Megjegyzés: AI gyorsító nélkül a demó türelmet igényel.
+              </p>
+              <div class="chips" aria-label="Technológiák">
+                <span class="chip">Python</span>
+                <span class="chip">PyTorch</span>
+                <span class="chip">Django</span>
+                <span class="chip">HTMX</span>
+                <span class="chip">Tokenizálás / BPE</span>
+              </div>
+              <div class="links">
+                <a href="#" aria-label="Tajmese demo link">Élő demó</a>
+                <a href="#" aria-label="Tajmese GitHub link">GitHub</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- RAG_Chat -->
+          <article class="card reveal glow-teal">
+            <div class="thumb img" aria-hidden="true" style="--thumb: url('RAG_Chat.png');">
+              <span class="thumb-tag">RAG_Chat · retrieval</span>
+              <div class="overlay">
+                <a class="icon-btn" href="#" title="Élő demó" aria-label="RAG_Chat élő demó">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 3h7v7" />
+                    <path d="M10 14L21 3" />
+                    <path d="M21 14v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
+                  </svg>
+                </a>
+                <a class="icon-btn" href="#" title="GitHub" aria-label="RAG_Chat GitHub repó">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 19c-4 1.5-4-2.5-5-3m10 6v-3.5c0-1 .1-1.4-.5-2 2.5-.3 5-1.2 5-5.5A4.3 4.3 0 0 0 18 7.5 4 4 0 0 0 17.9 4S17 3.7 14 5.5a13.4 13.4 0 0 0-5 0C6 3.7 5.1 4 5.1 4A4 4 0 0 0 5 7.5 4.3 4.3 0 0 0 4 10c0 4.3 2.5 5.2 5 5.5-.6.6-.6 1.2-.5 2V22" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div class="content">
+              <div class="title-row">
+                <div class="title">RAG_Chat – “kicsi, de éles” RAG chat</div>
+                <div class="note">BM25 + prompt</div>
+              </div>
+              <p class="desc">
+                Production-oriented RAG chat webapp. Seholország dokumentumaiból tudásbázist épít, chunkol,
+                BM25-szerű rangsorolással választ releváns részleteket, majd promptba injektálja. Opcionálisan
+                Cloudflare Workers AI, de cred nélkül is determinisztikus fallback.
+              </p>
+              <div class="goal">
+                <div class="label">Cél</div>
+                <div class="text">
+                  RAG pipeline bemutatása: dokumentum-feldolgozás (chunkolás) → retrieval → prompt-összeállítás → chat válasz.
+                  “Production-szemléletű” alapok: kis függőségi lábnyom, tiszta rétegezés, kontrollált input és válaszformátum.
+                </div>
+              </div>
+              <div class="chips" aria-label="Technológiák">
+                <span class="chip">Django</span>
+                <span class="chip">HTMX</span>
+                <span class="chip">BM25</span>
+                <span class="chip">Prompt assembly</span>
+                <span class="chip">CSRF / validáció</span>
+              </div>
+              <div class="links">
+                <a href="#" aria-label="RAG_Chat demo link">Élő demó</a>
+                <a href="#" aria-label="RAG_Chat GitHub link">GitHub</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- AutoChess -->
+          <article class="card reveal glow-amber">
+            <div class="thumb img" aria-hidden="true" style="--thumb: url('AutoChess.png');">
+              <span class="thumb-tag">AutoChess · concurrency</span>
+              <div class="overlay">
+                <a class="icon-btn" href="#" title="Élő demó" aria-label="AutoChess élő demó">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 3h7v7" />
+                    <path d="M10 14L21 3" />
+                    <path d="M21 14v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
+                  </svg>
+                </a>
+                <a class="icon-btn" href="#" title="GitHub" aria-label="AutoChess GitHub repó">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 19c-4 1.5-4-2.5-5-3m10 6v-3.5c0-1 .1-1.4-.5-2 2.5-.3 5-1.2 5-5.5A4.3 4.3 0 0 0 18 7.5 4 4 0 0 0 17.9 4S17 3.7 14 5.5a13.4 13.4 0 0 0-5 0C6 3.7 5.1 4 5.1 4A4 4 0 0 0 5 7.5 4.3 4.3 0 0 0 4 10c0 4.3 2.5 5.2 5 5.5-.6.6-.6 1.2-.5 2V22" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div class="content">
+              <div class="title-row">
+                <div class="title">AutoChess – sakkmotorok párharca</div>
+                <div class="note">UCI · state machine</div>
+              </div>
+              <p class="desc">
+                Minimalista Django + HTMX alkalmazás: két UCI motor játszik egymás ellen. Tick jellegű végpont léptet
+                egy fél-lépést (ply) kontrollált módon. A játékállapot DB-ben él, tranzakció és per-game lock védi a
+                duplázott tick-eket (több tab / több néző esetén).
+              </p>
+              <div class="goal">
+                <div class="label">Cél</div>
+                <div class="text">
+                  Determinált állapotgép + concurrency-védelem: a meccs “tick”-ekkel léptethető, és több néző / több tab esetén se csússzon szét az állapot.
+                  UCI sakkmotor integráció demonstrálása, meccslogika és DB-persistencia mellett.
+                </div>
+              </div>
+              <div class="chips" aria-label="Technológiák">
+                <span class="chip">Django</span>
+                <span class="chip">HTMX</span>
+                <span class="chip">UCI engine</span>
+                <span class="chip">DB tranzakciók</span>
+                <span class="chip">Locking</span>
+              </div>
+              <div class="links">
+                <a href="#" aria-label="AutoChess demo link">Élő demó</a>
+                <a href="#" aria-label="AutoChess GitHub link">GitHub</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="eyebrow">Kapcsolat</div>
+            <h2>Elérhetőségek</h2>
+            <p class="lead">
+              Nincs űrlap — egyszerű, üzleti jellegű elérés. Email + közösségi profilok.
+            </p>
+          </div>
+        </div>
+
+        <div class="contact reveal" aria-label="Kapcsolati kártya">
+          <div>
+            <div class="label">Email</div>
+            <div class="row" style="margin-top:10px">
+              <div class="brand-badge" aria-hidden="true" style="width:44px; height:44px; border-radius:16px">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16v16H4z" />
+                  <path d="M22 6l-10 7L2 6" />
+                </svg>
+              </div>
+              <div>
+                <div class="value"><a href="mailto:alazar68@gmail.com">alazar68@gmail.com</a></div>
+                <div style="margin-top:4px; color: var(--muted2); font-size: 13px">Válaszidő: általában 24–48 óra.</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="label">Közösségi profilok</div>
+            <div class="social" style="margin-top:10px">
+              <a href="https://www.linkedin.com/in/andras-lazar-57a283295/" target="_blank" rel="noreferrer">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7H8V9h4v2" />
+                  <rect x="2" y="9" width="4" height="12" />
+                  <circle cx="4" cy="4" r="2" />
+                </svg>
+                LinkedIn
+              </a>
+              <a href="https://www.facebook.com/andras.lazar.90?locale=hu_HU" target="_blank" rel="noreferrer">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                </svg>
+                Facebook
+              </a>
+              <a href="https://github.com/alazar68-ship-it" target="_blank" rel="noreferrer">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M9 19c-4 1.5-4-2.5-5-3m10 6v-3.5c0-1 .1-1.4-.5-2 2.5-.3 5-1.2 5-5.5A4.3 4.3 0 0 0 18 7.5 4 4 0 0 0 17.9 4S17 3.7 14 5.5a13.4 13.4 0 0 0-5 0C6 3.7 5.1 4 5.1 4A4 4 0 0 0 5 7.5 4.3 4.3 0 0 0 4 10c0 4.3 2.5 5.2 5 5.5-.6.6-.6 1.2-.5 2V22" />
+                </svg>
+                GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container">
+        <div class="foot">
+          <div>© <span id="y"></span> András Lázár. Python AI portfólió.</div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap">
+            <a class="link" href="#top">Főoldal</a>
+            <a class="link" href="#projects">Projektek</a>
+            <a class="link" href="#contact">Kapcsolat</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Év a footerben
+    document.getElementById("y").textContent = String(new Date().getFullYear());
+
+    // Finom scroll-reveal (framework nélkül)
+    const els = Array.from(document.querySelectorAll(".reveal"));
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          e.target.classList.add("in");
+          io.unobserve(e.target);
+        }
+      }
+    }, { threshold: 0.12 });
+    els.forEach((el) => io.observe(el));
+
+    // Opcionális: ha valaki motion-reductiont kér, ne animáljunk.
+    const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) {
+      els.forEach((el) => el.classList.add("in"));
+      try { io.disconnect(); } catch (_) {}
+    }
+
+    // Subtle parallax/zoom a projekt-képekhez
+    // Üzleties, finom (max ~10px eltolás, ~1.06x zoom). Csak ha nincs reduce-motion.
+    if (!reduceMotion) {
+      const thumbs = Array.from(document.querySelectorAll(".thumb.img"));
+      thumbs.forEach((thumb) => {
+        const setVars = (e) => {
+          const r = thumb.getBoundingClientRect();
+          const x = (e.clientX - r.left) / Math.max(1, r.width);
+          const y = (e.clientY - r.top) / Math.max(1, r.height);
+          // clamp 0..1
+          const cx = Math.min(1, Math.max(0, x));
+          const cy = Math.min(1, Math.max(0, y));
+          thumb.style.setProperty("--mx", String(cx));
+          thumb.style.setProperty("--my", String(cy));
+        };
+
+        thumb.addEventListener("mousemove", setVars);
+        thumb.addEventListener("mouseenter", (e) => setVars(e));
+        thumb.addEventListener("mouseleave", () => {
+          thumb.style.setProperty("--mx", "0.5");
+          thumb.style.setProperty("--my", "0.5");
+        });
+      });
+    }
+  </script>
+</body>
+</html>
